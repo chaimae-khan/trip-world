@@ -1,0 +1,28 @@
+ersion: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: travelworld
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_ENV=development
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
