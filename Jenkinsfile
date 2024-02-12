@@ -3,6 +3,7 @@ pipeline {
 
     environment {
        DOCKER_IMAGE_NAME = 'travelworld'
+       registryCredential = 'dockerhublogin'
     }
 
     stages {
@@ -19,17 +20,18 @@ pipeline {
                 }
             }
         }
-stage('Pushing Image') {
-      environment {
-               registryCredential = 'dockerhublogin'
-           }
-      steps{
-        script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
-          }
-        }
-      }
+ stage('Pushing Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        // Tag the Docker image
+                        sh "docker tag ${DOCKER_IMAGE_NAME} latest"
+                        
+                        // Push the Docker image
+                        sh "docker push ${DOCKER_IMAGE_NAME}"
+                    }
+                }
+            }
     }}}
 
     
