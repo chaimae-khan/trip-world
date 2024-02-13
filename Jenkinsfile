@@ -30,6 +30,20 @@ pipeline {
                 }
             }
         }
+ stage('Pushing Image') {
+            steps {
+                script {
+                    // docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        // Tag the Docker image
+                       // sh "docker tag ${DOCKER_IMAGE_NAME} latest"
+                        
+                        // Push the Docker image
+                        // sh "docker push ${DOCKER_IMAGE_NAME}"
+                 sh 'docker push chaimaekh/${DOCKER_IMAGE_NAME}:latest'
+                    }
+                }
+            }
+    }
 }}
 
     
