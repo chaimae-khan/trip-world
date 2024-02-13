@@ -3,7 +3,7 @@ pipeline {
 
     environment {
        DOCKER_IMAGE_NAME = 'travelworld'
-       registryCredential = 'dockerhublogin'
+       DOCKERHUB_CREDENTIALS = credentials('chaimaekh-dockerhub')
     }
 
     stages {
@@ -20,18 +20,16 @@ pipeline {
                 }
             }
         }
- stage('Pushing Image') {
+      stage('Login') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                        // Tag the Docker image
-                        sh "docker tag ${DOCKER_IMAGE_NAME} latest"
-                        
-                        // Push the Docker image
-                        sh "docker push ${DOCKER_IMAGE_NAME}"
+                    withCredentials([usernamePassword(credentialsId: 'chaimaekh-dockerhub', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR')]) {
+                        sh "echo \$DOCKERHUB_CREDENTIALS_PSW | docker login -u \$DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                        echo 'Login successful'
                     }
                 }
             }
-    }}}
+        }
+}}
 
     
