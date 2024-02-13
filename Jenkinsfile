@@ -39,7 +39,7 @@ pipeline {
                         
                         // Push the Docker image
                         // sh "docker push ${DOCKER_IMAGE_NAME}"
-                 sh 'docker push ${DOCKER_IMAGE_NAME}:latest'
+                 sh 'docker push library/${DOCKER_IMAGE_NAME}:latest'
                     }
                 }
             }
