@@ -20,6 +20,8 @@ RUN pip install --upgrade pip && pip install -r requirements.txt && pip install 
 
 # Copy the Django app code into the container
 COPY . /app/
+# Make manage.py executable
+RUN chmod +x /app/manage.py
 
 CMD ["bash", "-c", "\
     until pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USER; do \
